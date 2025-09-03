@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Development Center - University of Peradeniya</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4ecdc4;
+            --secondary-color: #ff6b6b;
+            --dark-bg: #0f0f23;
+            --light-bg: #1a1a3a;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--light-bg) 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.95) 0%, rgba(26, 26, 58, 0.95) 100%);
+            backdrop-filter: blur(25px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .navbar.scrolled {
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.98) 0%, rgba(26, 26, 58, 0.98) 100%);
+            backdrop-filter: blur(30px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 20px rgba(78, 205, 196, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: rotate(5deg) scale(1.05);
+        }
+
+        .logo-text .main-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            background: var(--glass-bg);
+            border-radius: 50px;
+            padding: 0.5rem;
+        }
+
+        .nav-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: block;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 90px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.98) 0%, rgba(26, 26, 58, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            padding: 2rem;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        /* Page Container */
+        .page-container {
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: calc(100vh - 100px);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(rgba(15, 15, 35, 0.8), rgba(26, 26, 58, 0.8)), 
+                        radial-gradient(circle at 50% 50%, rgba(78, 205, 196, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-text h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, var(--primary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: slideInLeft 1s ease-out;
+            line-height: 1.1;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            animation: slideInLeft 1s ease-out 0.2s both;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2.5rem;
+            animation: slideInLeft 1s ease-out 0.4s both;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            animation: slideInLeft 1s ease-out 0.6s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+        }
+
+        /* Stats Container */
+        .stats-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid var(--glass-border);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .stats-container:hover {
+            transform: perspective(1000px) rotateY(0deg) scale(1.02);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: rgba(78, 205, 196, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 0 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, var(--primary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Card Styles */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            padding: 0 2rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
+            padding: 2.5rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(78, 205, 196, 0.4);
+            box-shadow: 0 25px 60px rgba(78, 205, 196, 0.2);
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .card p {
+            opacity: 0.85;
+            line-height: 1.7;
+            margin-bottom: 1.8rem;
+        }
+
+        .card-features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .card-features li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .card-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .card-button {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .card-button:hover {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+
+        /* Form Styles */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+        }
+
+        /* Vision Mission */
+        .vision-mission-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 0 2rem;
+            align-items: center;
+        }
+
+        .vision, .mission {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            padding: 3rem;
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vision:hover, .mission:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .vision h3, .mission h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Staff Grid */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .staff-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .staff-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .staff-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        /* Event Cards */
+        .event-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .event-date {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3rem 0;
+            margin-top: 5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 0.3rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            }
+
+            .vision-mission-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-container {
+                padding: 0.5rem 1rem;
+            }
+
+            .logo-text .main-title {
+                font-size: 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .stats-container {
+                padding: 2rem;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+
+            .vision, .mission {
+                padding: 2rem;
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 50%;
+            animation: particleFloat 8s infinite ease-in-out;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg) scale(1); 
+                opacity: 0.1;
+            }
+            50% { 
+                transform: translateY(-30px) rotate(180deg) scale(1.2); 
+                opacity: 0.3;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 15, 35, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #ff5252, #26a69a);
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle System -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="showSection('home')">
+                <div class="logo-img">SDC</div>
+                <div class="logo-text">
+                    <span class="main-title">Staff Development Center</span>
+                    <span class="sub-title">University of Peradeniya</span>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="#" onclick="showSection('home')" class="active" id="nav-home">Home</a></li>
+                <li><a href="#" onclick="showSection('about')" id="nav-about">About Us</a></li>
+                <li><a href="#" onclick="showSection('administration')" id="nav-administration">Administration</a></li>
+                <li><a href="#" onclick="showSection('programs')" id="nav-programs">Programs</a></li>
+                <li><a href="#" onclick="showSection('events')" id="nav-events">Event Calendar</a></li>
+                <li><a href="#" onclick="showSection('resources')" id="nav-resources">e-Resources</a></li>
+                <li><a href="#" onclick="showSection('staff')" id="nav-staff">Staff</a></li>
+                <li><a href="#" onclick="showSection('contact')" id="nav-contact">Contact Us</a></li>
+                <li><a href="#" onclick="showSection('moodle')" id="nav-moodle">SDC Moodle</a></li>
+                <li><a href="#" onclick="showSection('register')" id="nav-register">Register</a></li>
+            </ul>
+
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#" onclick="showSection('home')">Home</a>
+            <a href="#" onclick="showSection('about')">About Us</a>
+            <a href="#" onclick="showSection('administration')">Administration</a>
+            <a href="#" onclick="showSection('programs')">Programs</a>
+            <a href="#" onclick="showSection('events')">Event Calendar</a>
+            <a href="#" onclick="showSection('resources')">e-Resources</a>
+            <a href="#" onclick="showSection('staff')">Staff</a>
+            <a href="#" onclick="showSection('contact')">Contact Us</a>
+            <a href="#" onclick="showSection('moodle')">SDC Moodle</a>
+            <a href="#" onclick="showSection('register')">Register</a>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!-- HOME SECTION -->
+        <section class="content-section active" id="home">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <div class="subtitle">Welcome to</div>
+                        <h1>Staff Development Center</h1>
+                        <p>Empowering excellence through continuous learning and professional development at the University of Peradeniya. Building bridges between knowledge and practice since 1999.</p>
+                        <div class="hero-buttons">
+                            <a href="#" onclick="showSection('programs')" class="cta-button">Explore Programs</a>
+                            <a href="#" onclick="showSection('register')" class="cta-button secondary">Register Now</a>
+                        </div>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stats-container">
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number">25+</span>
+                                    <span class="stat-label">Years of Excellence</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">1200+</span>
+                                    <span class="stat-label">Participants Trained</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">60+</span>
+                                    <span class="stat-label">Programs Conducted</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">15+</span>
+                                    <span class="stat-label">Partner Universities</span>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 1.5rem;">
+                                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">🎓 Excellence in Education</h4>
+                                <p style="opacity: 0.8; font-size: 0.9rem;">Fostering collaboration and growth in higher education</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Programs Overview -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>Featured Programs</h2>
+                    <p>Discover our most popular professional development programs</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">CTHE</div>
+                        <h3>Certificate in Teaching in Higher Education</h3>
+                        <p>Essential teaching skills for probationary academic staff</p>
+                        <button class="card-button" onclick="showSection('programs')">Learn More</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">CCLMU</div>
+                        <h3>Certificate Course in Leading Managing Universities</h3>
+                        <p>Leadership development for senior academic staff</p>
+                        <button class="card-button" onclick="showSection('programs')">Learn More</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">ENACT</div>
+                        <h3>ENACT Program</h3>
+                        <p>Comprehensive staff development across all levels</p>
+                        <button class="card-button" onclick="showSection('programs')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vision Mission Section -->
+            <div class="section" style="background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(78, 205, 196, 0.05) 100%); margin: 0 -2rem; padding: 5rem 2rem;">
+                <div class="vision-mission-container">
+                    <div class="vision">
+                        <h3>🎯 Our Vision</h3>
+                        <p>To be a center of excellence in training for the development of efficient and effective personnel who could contribute significantly to their institution's growth and development.</p>
+                    </div>
+                    <div class="mission">
+                        <h3>🚀 Our Mission</h3>
+                        <p>To conduct and nurture activities that would promote and contribute to capacity building of members in a work force.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Director Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>Director's Message</h2>
+                </div>
+                <div style="display: grid; grid-template-columns: 300px 1fr; gap: 3rem; padding: 0 2rem; align-items: center; max-width: 1200px; margin: 0 auto;">
+                    <div style="text-align: center;">
+                        <div style="width: 250px; height: 250px; border-radius: 50%; background: linear-gradient(45deg, var(--secondary-color), var(--primary-color)); padding: 4px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                            <div style="width: 242px; height: 242px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 3rem;">
+                                👨‍🎓
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin: 0;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Prof. Roshan Ragel - Director</h3>
+                        <p>The Staff Development Center of the University of Peradeniya was established in March 1999 in order to bring about better collaboration among faculties with regard to staff development.</p>
+                        <p>The SDC while being an umbrella organization for the different units of individual faculties, conducts activities to promote and nurture staff development at the University of Peradeniya and other Universities in the system.</p>
+                        <p>Currently the SDC has the capability to offer its services for staff development in other Institutes of the country as well.</p>
+                        <div style="margin-top: 2rem;">
+                            <a href="#" class="cta-button">Watch Introduction Video</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section class="content-section" id="about">
+            <div class="section">
+                <div class="section-header">
+                    <h2>About Us</h2>
+                    <p>Learn about our history, mission, and commitment to excellence in staff development</p>
+                </div>
+                
+                <div style="padding: 0 2rem; max-width: 1000px; margin: 0 auto;">
+                    <div class="card">
+                        <h3>History & Background</h3>
+                        <p>The Staff Development Center of the University of Peradeniya was established in March 1999 to bring about better collaboration among faculties with regard to staff development. The SDC serves as an umbrella organization for the different units of individual faculties.</p>
+                    </div>
+
+                    <div class="vision-mission-container" style="margin-top: 4rem;">
+                        <div class="vision">
+                            <h3>🎯 Our Vision</h3>
+                            <p>To be a center of excellence in training for the development of efficient and effective personnel who could contribute significantly to their institution's growth and development.</p>
+                        </div>
+                        <div class="mission">
+                            <h3>🚀 Our Mission</h3>
+                            <p>To conduct and nurture activities that would promote and contribute to capacity building of members in a work force.</p>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 3rem;">
+                        <h3>Our Objectives</h3>
+                        <ul class="card-features">
+                            <li>Enhance teaching and learning methodologies in higher education</li>
+                            <li>Develop leadership and management skills among academic staff</li>
+                            <li>Provide continuous professional development opportunities</li>
+                            <li>Foster collaboration between universities and institutions</li>
+                            <li>Promote research and innovation in staff development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMINISTRATION SECTION -->
+        <section class="content-section" id="administration">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Administration</h2>
+                    <p>Meet our administrative team and organizational structure</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Organizational Structure</h3>
+                        <p>The SDC operates under the guidance of the University administration and maintains close collaboration with all faculties.</p>
+                        <ul class="card-features">
+                            <li>Director - Prof. Roshan Ragel</li>
+                            <li>Assistant Director</li>
+                            <li>Program Coordinators</li>
+                            <li>Administrative Staff</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Management Committee</h3>
+                        <p>Our management committee ensures effective governance and strategic direction for all SDC activities.</p>
+                        <ul class="card-features">
+                            <li>Vice Chancellor (Chairman)</li>
+                            <li>Deputy Vice Chancellor</li>
+                            <li>Faculty Representatives</li>
+                            <li>External Experts</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Program Committee</h3>
+                        <p>Dedicated committee for program development, evaluation, and quality assurance.</p>
+                        <ul class="card-features">
+                            <li>Program Directors</li>
+                            <li>Subject Matter Experts</li>
+                            <li>Industry Representatives</li>
+                            <li>International Advisors</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROGRAMS SECTION -->
+        <section class="content-section" id="programs">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Our Programs</h2>
+                    <p>Comprehensive training programs designed to enhance skills and promote professional growth</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">CTHE</div>
+                        <h3>Certificate in Teaching in Higher Education</h3>
+                        <p>Comprehensive program designed for probationary academic staff to develop essential teaching skills and methodologies.</p>
+                        <ul class="card-features">
+                            <li>Teaching methodology and pedagogical techniques</li>
+                            <li>Curriculum development and course design</li>
+                            <li>Assessment and evaluation methods</li>
+                            <li>Educational technology integration</li>
+                            <li>Student engagement strategies</li>
+                        </ul>
+                        <button class="card-button">Apply Now</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">CCLMU</div>
+                        <h3>Certificate Course in Leading Managing Universities</h3>
+                        <p>Advanced leadership program for senior academic staff focusing on university management and strategic leadership.</p>
+                        <ul class="card-features">
+                            <li>Leadership skills and team management</li>
+                            <li>Strategic planning and vision development</li>
+                            <li>Change management and innovation</li>
+                            <li>Decision making and problem solving</li>
+                            <li>Financial management and resource allocation</li>
+                        </ul>
+                        <button class="card-button">Apply Now</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">SSC</div>
+                        <h3>Senior Student Counsellor Program</h3>
+                        <p>Specialized program for developing counseling skills and providing comprehensive student support services.</p>
+                        <ul class="card-features">
+                            <li>Counseling techniques and methodologies</li>
+                            <li>Student psychology and development</li>
+                            <li>Crisis intervention and management</li>
+                            <li>Support system development</li>
+                            <li>Mental health awareness</li>
+                        </ul>
+                        <button class="card-button">Apply Now</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">CBPTO</div>
+                        <h3>Capacity Building Program for Technical Officers</h3>
+                        <p>Technical skill enhancement program for laboratory and technical staff members across all disciplines.</p>
+                        <ul class="card-features">
+                            <li>Technical expertise development</li>
+                            <li>Safety protocols and procedures</li>
+                            <li>Equipment management and maintenance</li>
+                            <li>Quality assurance and control</li>
+                            <li>Innovation and problem solving</li>
+                        </ul>
+                        <button class="card-button">Apply Now</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">CBPMA</div>
+                        <h3>Capacity Building Program for Management Assistants</h3>
+                        <p>Administrative excellence program for management and support staff to enhance organizational efficiency.</p>
+                        <ul class="card-features">
+                            <li>Administrative skills and procedures</li>
+                            <li>Project management techniques</li>
+                            <li>Communication and interpersonal skills</li>
+                            <li>Digital literacy and technology</li>
+                            <li>Customer service excellence</li>
+                        </ul>
+                        <button class="card-button">Apply Now</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">ENACT</div>
+                        <h3>ENACT Program</h3>
+                        <p>Comprehensive staff development program focusing on enhancing capabilities across all organizational levels.</p>
+                        <ul class="card-features">
+                            <li>Professional development planning</li>
+                            <li>Skill enhancement workshops</li>
+                            <li>Career advancement strategies</li>
+                            <li>Performance improvement techniques</li>
+                            <li>Leadership development pathway</li>
+                        </ul>
+                        <button class="card-button">Apply Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EVENTS SECTION -->
+        <section class="content-section" id="events">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Event Calendar</h2>
+                    <p>Stay updated with our upcoming programs, workshops, and special events</p>
+                </div>
+                
+                <div style="padding: 0 2rem; max-width: 1000px; margin: 0 auto;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 2rem; text-align: center;">Upcoming Events</h3>
+                    
+                    <div class="event-card">
+                        <div class="event-date">March 15-17, 2025</div>
+                        <h3>CTHE Program - Batch 25</h3>
+                        <p>Certificate in Teaching in Higher Education program for new academic staff members. This comprehensive 3-day workshop covers essential teaching methodologies.</p>
+                        <p><strong>Venue:</strong> SDC Main Hall | <strong>Time:</strong> 9:00 AM - 5:00 PM</p>
+                        <a href="#" onclick="showSection('register')" class="cta-button" style="margin-top: 1rem; display: inline-block;">Register Now</a>
+                    </div>
+
+                    <div class="event-card">
+                        <div class="event-date">March 22-24, 2025</div>
+                        <h3>Leadership Workshop for Senior Staff</h3>
+                        <p>Advanced leadership development workshop as part of the CCLMU program, focusing on strategic management and decision-making skills.</p>
+                        <p><strong>Venue:</strong> Conference Room A | <strong>Time:</strong> 9:00 AM - 4:00 PM</p>
+                        <button class="card-button">More Details</button>
+                    </div>
+
+                    <div class="event-card">
+                        <div class="event-date">April 5-7, 2025</div>
+                        <h3>Technical Skills Enhancement Program</h3>
+                        <p>CBPTO program for laboratory and technical staff, covering modern equipment usage, safety protocols, and quality management.</p>
+                        <p><strong>Venue:</strong> Technical Training Center | <strong>Time:</strong> 8:30 AM - 4:30 PM</p>
+                        <button class="card-button">More Details</button>
+                    </div>
+
+                    <h3 style="color: var(--primary-color); margin: 3rem 0 2rem; text-align: center;">Past Events</h3>
+                    
+                    <div class="event-card" style="opacity: 0.8;">
+                        <div class="event-date" style="background: #666;">February 20-22, 2025</div>
+                        <h3>Annual SDC Conference 2025</h3>
+                        <p>Successfully completed our annual conference with over 200 participants from various universities across Sri Lanka.</p>
+                        <p><strong>Theme:</strong> "Innovation in Higher Education" | <strong>Participants:</strong> 200+</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESOURCES SECTION -->
+        <section class="content-section" id="resources">
+            <div class="section">
+                <div class="section-header">
+                    <h2>e-Resources</h2>
+                    <p>Access our digital library of resources, downloads, and educational materials</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>📚 Digital Library</h3>
+                        <p>Access our comprehensive collection of educational resources, research papers, and reference materials.</p>
+                        <ul class="card-features">
+                            <li>Teaching methodology guides</li>
+                            <li>Leadership development resources</li>
+                            <li>Research publications</li>
+                            <li>Best practices documentation</li>
+                        </ul>
+                        <button class="card-button">Browse Library</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📄 Forms & Applications</h3>
+                        <p>Download application forms, registration documents, and official templates.</p>
+                        <ul class="card-features">
+                            <li>Program application forms</li>
+                            <li>Registration templates</li>
+                            <li>Evaluation forms</li>
+                            <li>Certificate templates</li>
+                        </ul>
+                        <button class="card-button">Download Forms</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎥 Video Resources</h3>
+                        <p>Watch recorded sessions, tutorials, and educational videos from our expert instructors.</p>
+                        <ul class="card-features">
+                            <li>Recorded webinars</li>
+                            <li>Training video tutorials</li>
+                            <li>Guest lectures</li>
+                            <li>Program highlights</li>
+                        </ul>
+                        <button class="card-button">Watch Videos</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📋 Policies & Guidelines</h3>
+                        <p>Review our official policies, procedures, and guidelines for all programs and activities.</p>
+                        <ul class="card-features">
+                            <li>Program policies</li>
+                            <li>Assessment guidelines</li>
+                            <li>Code of conduct</li>
+                            <li>Quality standards</li>
+                        </ul>
+                        <button class="card-button">View Policies</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STAFF SECTION -->
+        <section class="content-section" id="staff">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Our Team</h2>
+                    <p>Meet our dedicated team of professionals committed to excellence in staff development</p>
+                </div>
+                
+                <div class="staff-grid">
+                    <div class="staff-card">
+                        <div class="staff-avatar">👨‍🎓</div>
+                        <h3>Prof. Roshan Ragel</h3>
+                        <p style="color: var(--primary-color); font-weight: 600;">Director</p>
+                        <p>Leading the SDC with vision and commitment to excellence in higher education development.</p>
+                        <p><strong>Email:</strong> director@sdc.pdn.ac.lk</p>
+                    </div>
+                    
+                    <div class="staff-card">
+                        <div class="staff-avatar">👩‍🏫</div>
+                        <h3>Dr. Samantha Perera</h3>
+                        <p style="color: var(--primary-color); font-weight: 600;">Assistant Director</p>
+                        <p>Coordinating program development and academic excellence initiatives.</p>
+                        <p><strong>Email:</strong> assistant.director@sdc.pdn.ac.lk</p>
+                    </div>
+                    
+                    <div class="staff-card">
+                        <div class="staff-avatar">👨‍💼</div>
+                        <h3>Mr. Kamal Silva</h3>
+                        <p style="color: var(--primary-color); font-weight: 600;">Program Coordinator</p>
+                        <p>Managing program logistics and participant coordination.</p>
+                        <p><strong>Email:</strong> coordinator@sdc.pdn.ac.lk</p>
+                    </div>
+                    
+                    <div class="staff-card">
+                        <div class="staff-avatar">👩‍💻</div>
+                        <h3>Ms. Priya Fernando</h3>
+                        <p style="color: var(--primary-color); font-weight: 600;">Administrative Officer</p>
+                        <p>Handling administrative functions and student services.</p>
+                        <p><strong>Email:</strong> admin@sdc.pdn.ac.lk</p>
+                    </div>
+                    
+                    <div class="staff-card">
+                        <div class="staff-avatar">👨‍🔬</div>
+                        <h3>Dr. Rajesh Kumar</h3>
+                        <p style="color: var(--primary-color); font-weight: 600;">Training Specialist</p>
+                        <p>Developing and delivering specialized training programs.</p>
+                        <p><strong>Email:</strong> training@sdc.pdn.ac.lk</p>
+                    </div>
+                    
+                    <div class="staff-card">
+                        <div class="staff-avatar">👩‍⚕️</div>
+                        <h3>Ms. Nisha Jayawardene</h3>
+                        <p style="color: var(--primary-color); font-weight: 600;">Student Counsellor</p>
+                        <p>Providing counseling and support services to participants.</p>
+                        <p><strong>Email:</strong> counsellor@sdc.pdn.ac.lk</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class="content-section" id="contact">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Contact Us</h2>
+                    <p>Get in touch with us for inquiries, support, or more information</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding: 0 2rem; max-width: 1200px; margin: 0 auto;">
+                    <div class="card">
+                        <h3>Contact Information</h3>
+                        <div style="margin: 2rem 0;">
+                            <p style="margin-bottom: 1rem;"><i class="fas fa-map-marker-alt" style="color: var(--primary-color); width: 20px;"></i> <strong>Address:</strong></p>
+                            <p style="margin-left: 2rem; opacity: 0.9;">Staff Development Center<br>
+                            University of Peradeniya<br>
+                            Peradeniya 20400<br>
+                            Sri Lanka</p>
+                        </div>
+                        
+                        <div style="margin: 2rem 0;">
+                            <p style="margin-bottom: 0.5rem;"><i class="fas fa-phone" style="color: var(--primary-color); width: 20px;"></i> <strong>Phone:</strong></p>
+                            <p style="margin-left: 2rem; opacity: 0.9;">+94 081 2065350</p>
+                        </div>
+                        
+                        <div style="margin: 2rem 0;">
+                            <p style="margin-bottom: 0.5rem;"><i class="fas fa-fax" style="color: var(--primary-color); width: 20px;"></i> <strong>Fax:</strong></p>
+                            <p style="margin-left: 2rem; opacity: 0.9;">+94 081 2065350</p>
+                        </div>
+                        
+                        <div style="margin: 2rem 0;">
+                            <p style="margin-bottom: 0.5rem;"><i class="fas fa-envelope" style="color: var(--primary-color); width: 20px;"></i> <strong>Email:</strong></p>
+                            <p style="margin-left: 2rem; opacity: 0.9;">sdc@pdn.ac.lk</p>
+                        </div>
+                        
+                        <div style="margin: 2rem 0;">
+                            <p style="margin-bottom: 1rem;"><i class="fas fa-clock" style="color: var(--primary-color); width: 20px;"></i> <strong>Office Hours:</strong></p>
+                            <p style="margin-left: 2rem; opacity: 0.9;">Monday - Friday: 8:00 AM - 4:30 PM<br>
+                            Saturday: 8:00 AM - 12:30 PM<br>
+                            Sunday: Closed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-container" style="max-width: none; padding: 0;">
+                        <div class="card">
+                            <h3>Send us a Message</h3>
+                            <form style="margin-top: 2rem;">
+                                <div class="form-group">
+                                    <label for="name">Full Name</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="subject">Subject</label>
+                                    <select id="subject" name="subject" required>
+                                        <option value="">Select a subject</option>
+                                        <option value="program-inquiry">Program Inquiry</option>
+                                        <option value="registration">Registration</option>
+                                        <option value="general">General Information</option>
+                                        <option value="feedback">Feedback</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" name="message" rows="5" required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="cta-button" style="width: 100%; margin-top: 1rem;">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MOODLE SECTION -->
+        <section class="content-section" id="moodle">
+            <div class="section">
+                <div class="section-header">
+                    <h2>SDC Moodle</h2>
+                    <p>Access our online learning management system for courses and resources</p>
+                </div>
+                
+                <div style="padding: 0 2rem; max-width: 800px; margin: 0 auto;">
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 4rem; margin-bottom: 2rem;">🎓</div>
+                        <h3>Learning Management System</h3>
+                        <p>Access course materials, submit assignments, participate in discussions, and track your progress through our comprehensive online learning platform.</p>
+                        
+                        <div style="margin: 3rem 0;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Features Available:</h4>
+                            <ul class="card-features">
+                                <li>Online course materials and resources</li>
+                                <li>Interactive assignments and quizzes</li>
+                                <li>Discussion forums and collaboration tools</li>
+                                <li>Progress tracking and gradebook</li>
+                                <li>Mobile-friendly interface</li>
+                                <li>24/7 access to learning content</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                            <a href="https://moodle.sdc.pdn.ac.lk" target="_blank" class="cta-button">Access Moodle</a>
+                            <button class="cta-button secondary">Need Help?</button>
+                        </div>
+                        
+                        <div style="margin-top: 3rem; padding: 2rem; background: rgba(78, 205, 196, 0.1); border-radius: 15px;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">First Time User?</h4>
+                            <p>If you're new to our Moodle platform, please contact our IT support team for account setup and orientation. We provide comprehensive training sessions for new users.</p>
+                            <p style="margin-top: 1rem;"><strong>Support:</strong> moodle-support@sdc.pdn.ac.lk | <strong>Phone:</strong> +94 081 2065350 (Ext: 123)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REGISTER SECTION -->
+        <section class="content-section" id="register">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Registration</h2>
+                    <p>Register for our programs and start your professional development journey</p>
+                </div>
+                
+                <div class="form-container">
+                    <div class="card">
+                        <h3>Program Registration Form</h3>
+                        <form style="margin-top: 2rem;">
+                            <div class="form-group">
+                                <label for="reg-program">Select Program</label>
+                                <select id="reg-program" name="program" required>
+                                    <option value="">Choose a program</option>
+                                    <option value="cthe">CTHE - Certificate in Teaching in Higher Education</option>
+                                    <option value="cclmu">CCLMU - Certificate Course in Leading Managing Universities</option>
+                                    <option value="ssc">SSC - Senior Student Counsellor Program</option>
+                                    <option value="cbpto">CBPTO - Capacity Building Program for Technical Officers</option>
+                                    <option value="cbpma">CBPMA - Capacity Building Program for Management Assistants</option>
+                                    <option value="enact">ENACT Program</option>
+                                </select>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label for="reg-fname">First Name</label>
+                                    <input type="text" id="reg-fname" name="firstName" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="reg-lname">Last Name</label>
+                                    <input type="text" id="reg-lname" name="lastName" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-email">Email Address</label>
+                                <input type="email" id="reg-email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-phone">Phone Number</label>
+                                <input type="tel" id="reg-phone" name="phone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-institution">Institution/Organization</label>
+                                <input type="text" id="reg-institution" name="institution" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-position">Current Position</label>
+                                <input type="text" id="reg-position" name="position" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-experience">Years of Experience</label>
+                                <select id="reg-experience" name="experience" required>
+                                    <option value="">Select experience level</option>
+                                    <option value="0-2">0-2 years</option>
+                                    <option value="3-5">3-5 years</option>
+                                    <option value="6-10">6-10 years</option>
+                                    <option value="11-15">11-15 years</option>
+                                    <option value="16+">16+ years</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-education">Highest Educational Qualification</label>
+                                <select id="reg-education" name="education" required>
+                                    <option value="">Select qualification</option>
+                                    <option value="bachelors">Bachelor's Degree</option>
+                                    <option value="masters">Master's Degree</option>
+                                    <option value="phd">PhD/Doctorate</option>
+                                    <option value="other">Other Professional Qualification</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-motivation">Why do you want to join this program?</label>
+                                <textarea id="reg-motivation" name="motivation" rows="4" required placeholder="Please describe your motivation and how this program aligns with your career goals..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" required style="margin-right: 0.5rem;">
+                                    I agree to the <a href="#" style="color: var(--primary-color);">terms and conditions</a> and confirm that the information provided is accurate.
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="cta-button" style="width: 100%; margin-top: 1rem;">Submit Registration</button>
+                        </form>
+                        
+                        <div style="margin-top: 3rem; padding: 2rem; background: rgba(78, 205, 196, 0.1); border-radius: 15px;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Registration Guidelines</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-color); margin-right: 0.5rem;"></i> Applications are reviewed within 5 business days</li>
+                                <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-color); margin-right: 0.5rem;"></i> Confirmation will be sent via email</li>
+                                <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-color); margin-right: 0.5rem;"></i> Program fees must be paid upon acceptance</li>
+                                <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-color); margin-right: 0.5rem;"></i> Certificate awarded upon successful completion</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Staff Development Center</h4>
+                <p style="margin-bottom: 1rem; opacity: 0.9;">Empowering excellence through continuous learning and professional development at the University of Peradeniya.</p>
+                <p>University of Peradeniya<br>
+                Peradeniya 20400<br>
+                Sri Lanka</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#" onclick="showSection('home')">Home</a>
+                <a href="#" onclick="showSection('about')">About Us</a>
+                <a href="#" onclick="showSection('programs')">Programs</a>
+                <a href="#" onclick="showSection('events')">Events</a>
+                <a href="#" onclick="showSection('staff')">Our Team</a>
+                <a href="#" onclick="showSection('contact')">Contact</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Programs</h4>
+                <a href="#" onclick="showSection('programs')">CTHE Program</a>
+                <a href="#" onclick="showSection('programs')">CCLMU Program</a>
+                <a href="#" onclick="showSection('programs')">SSC Program</a>
+                <a href="#" onclick="showSection('programs')">CBPTO Program</a>
+                <a href="#" onclick="showSection('programs')">CBPMA Program</a>
+                <a href="#" onclick="showSection('programs')">ENACT Program</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p style="margin-bottom: 0.5rem;"><i class="fas fa-phone" style="margin-right: 0.5rem; color: var(--primary-color);"></i> +94 081 2065350</p>
+                <p style="margin-bottom: 0.5rem;"><i class="fas fa-fax" style="margin-right: 0.5rem; color: var(--primary-color);"></i> +94 081 2065350</p>
+                <p style="margin-bottom: 0.5rem;"><i class="fas fa-envelope" style="margin-right: 0.5rem; color: var(--primary-color);"></i> sdc@pdn.ac.lk</p>
+                <div style="margin-top: 1rem;">
+                    <h4 style="margin-bottom: 1rem;">Follow Us</h4>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="#" style="color: var(--primary-color); font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: var(--primary-color); font-size: 1.5rem;"><i class="fab fa-youtube"></i></a>
+                        <a href="#" style="color: var(--primary-color); font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" style="color: var(--primary-color); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>External Links</h4>
+                <a href="https://www.pdn.ac.lk" target="_blank">University of Peradeniya</a>
+                <a href="https://www.ugc.ac.lk" target="_blank">University Grants Commission</a>
+                <a href="https://www.moe.gov.lk" target="_blank">Ministry of Education</a>
+                <a href="#" onclick="showSection('moodle')">SDC Moodle</a>
+                <a href="#" onclick="showSection('resources')">e-Resources</a>
+                <a href="#" onclick="showSection('register')">Online Registration</a>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6);">
+            <p>&copy; 2025 Staff Development Center, University of Peradeniya. All rights reserved.</p>
+            <p style="margin-top: 0.5rem;">Website designed & developed by SDC IT Team | <a href="#" style="color: var(--primary-color);">Privacy Policy</a> | <a href="#" style="color: var(--primary-color);">Terms of Use</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Update navigation active state
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeNavLink = document.getElementById('nav-' + sectionId);
+            if (activeNavLink) {
+                activeNavLink.classList.add('active');
+            }
+            
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-toggle').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // Form submission handlers
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show success message (you can customize this)
+                const successMessage = document.createElement('div');
+                successMessage.innerHTML = `
+                    <div style="
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: var(--glass-bg);
+                        backdrop-filter: blur(20px);
+                        border: 1px solid var(--glass-border);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        text-align: center;
+                        z-index: 10000;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                    ">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Success!</h3>
+                        <p>Your form has been submitted successfully. We will get back to you soon.</p>
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                                style="margin-top: 1rem; padding: 0.8rem 2rem; background: var(--primary-color); color: white; border: none; border-radius: 25px; cursor: pointer;">
+                            Close
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(successMessage);
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 5000);
+                
+                // Reset form
+                this.reset();
+            });
+        });
+
+        // Create particles animation
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 6 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize particles
+        createParticles();
+
+        // Add hover effects to cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show home section by default
+            showSection('home');
+            
+            // Add loading animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease-in-out';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add click effects to buttons
+        document.querySelectorAll('button, .cta-button, .card-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Create ripple effect
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                `;
+                
+                // Add ripple animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes ripple {
+                        to {
+                            transform: scale(2);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                    style.remove();
+                }, 600);
+            });
+        });
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.card, .section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s ease';
+            observer.observe(el);
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key >= '1' && e.key <= '9') {
+                e.preventDefault();
+                const sections = ['home', 'about', 'administration', 'programs', 'events', 'resources', 'staff', 'contact', 'moodle'];
+                const index = parseInt(e.key) - 1;
+                if (sections[index]) {
+                    showSection(sections[index]);
+                }
+            }
+        });
+
+        // Add search functionality (placeholder)
+        function addSearchBar() {
+            const searchHTML = `
+                <div style="position: fixed; top: 100px; right: 20px; z-index: 999;">
+                    <input type="search" placeholder="Search..." style="
+                        padding: 0.8rem 1rem;
+                        border: 2px solid var(--glass-border);
+                        border-radius: 25px;
+                        background: var(--glass-bg);
+                        color: var(--text-primary);
+                        backdrop-filter: blur(10px);
+                        width: 0;
+                        transition: all 0.3s ease;
+                        opacity: 0;
+                    " id="searchInput">
+                    <button onclick="toggleSearch()" style="
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        padding: 0.8rem 1rem;
+                        background: var(--primary-color);
+                        border: none;
+                        border-radius: 25px;
+                        color: white;
+                        cursor: pointer;
+                    ">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', searchHTML);
+        }
+
+        function toggleSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput.style.width === '250px') {
+                searchInput.style.width = '0';
+                searchInput.style.opacity = '0';
+                searchInput.blur();
+            } else {
+                searchInput.style.width = '250px';
+                searchInput.style.opacity = '1';
+                searchInput.focus();
+            }
+        }
+
+        // Initialize search bar
+        addSearchBar();
+
+        // Add back to top button
+        function addBackToTop() {
+            const backToTopHTML = `
+                <button id="backToTop" style="
+                    position: fixed;
+                    bottom: 30px;
+                    right: 30px;
+                    padding: 1rem;
+                    background: var(--primary-color);
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    opacity: 0;
+                    transform: translateY(100px);
+                    transition: all 0.3s ease;
+                    z-index: 999;
+                    font-size: 1.2rem;
+                    width: 50px;
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 4px 20px rgba(78, 205, 196, 0.3);
+                " onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+            `;
+            document.body.insertAdjacentHTML('beforeend', backToTopHTML);
+
+            // Show/hide back to top button
+            window.addEventListener('scroll', () => {
+                const backToTop = document.getElementById('backToTop');
+                if (window.scrollY > 300) {
+                    backToTop.style.opacity = '1';
+                    backToTop.style.transform = 'translateY(0)';
+                } else {
+                    backToTop.style.opacity = '0';
+                    backToTop.style.transform = 'translateY(100px)';
+                }
+            });
+        }
+
+        // Initialize back to top button
+        addBackToTop();
+    </script>
+</body>
+</html>
